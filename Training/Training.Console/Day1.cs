@@ -52,11 +52,11 @@ namespace Training
 
             if (myStringStoredNumParseAttempt)
             {
-                Console.WriteLine($"{myOutputVar}");
+                System.Console.WriteLine($"{myOutputVar}");
             }
             else
             {
-                Console.WriteLine("The value was not a string and could not be parsed");
+                System.Console.WriteLine("The value was not a string and could not be parsed");
             }
         }
     }
@@ -181,7 +181,31 @@ namespace Training
     }
 
 
+    public class Animal
+    {
+    }
 
+    public class Cat : Animal
+    {
+    }
+
+    public class Dog : Animal
+    {
+        
+    }
+
+    public class CovarianceExample { 
+        
+        public IEnumerable<Animal> ListAnimals()
+        {
+            // Can return anything as long as it implements the IEnumerable interface and the Animal Base class.
+            //return new List<Dog>();
+            //return new List<Cat>();
+            //return new HashSet<Dog>();
+            return new LinkedList<Animal>();
+        }
+
+    }
 }
 
 

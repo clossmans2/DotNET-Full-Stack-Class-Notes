@@ -16,12 +16,12 @@ namespace Training {
 
         public static void Main(string[] args) {
             // See https://aka.ms/new-console-template for more information
-            Console.WriteLine("Hello, World!");
+            System.Console.WriteLine("Hello, World!");
         }
 
         public void MainTwo(string[] args)
         {
-            Console.WriteLine("Hi, Earth!");
+            System.Console.WriteLine("Hi, Earth!");
         }
     }
 
@@ -43,11 +43,11 @@ namespace Training {
             foreach (var value in argList)
             {
                 str.Append(value);
-                Console.WriteLine($"{value}");
-                Console.WriteLine(string.Format("{0,3:}", value));
+                System.Console.WriteLine($"{value}");
+                System.Console.WriteLine(string.Format("{0,3:}", value));
             }
 
-            Console.WriteLine(str.ToString());
+            System.Console.WriteLine(str.ToString());
         }
 
         
