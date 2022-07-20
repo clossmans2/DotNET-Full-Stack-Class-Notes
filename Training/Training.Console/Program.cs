@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Configuration;
 
-namespace Training {
-    public class Program {
+namespace Training
+{
+    public class Program
+    {
 
         private readonly string _loggerName = "Training.Program";
 
@@ -14,14 +17,24 @@ namespace Training {
         public string MyName { get; set; }
 
 
-        public static void Main(string[] args) {
+        public static void Main(string[] args)
+        {
             // See https://aka.ms/new-console-template for more information
-            System.Console.WriteLine("Hello, World!");
+            //Day3 day3 = new Day3();
+
+            //day3.ListExample();
+            GetConfigurationValue();
         }
 
         public void MainTwo(string[] args)
         {
             System.Console.WriteLine("Hi, Earth!");
+        }
+
+        public static void GetConfigurationValue()
+        {
+            var connString = ConfigurationManager.AppSettings["ConnectionString"];
+            Console.WriteLine($"{connString}");
         }
     }
 
@@ -50,6 +63,6 @@ namespace Training {
             System.Console.WriteLine(str.ToString());
         }
 
-        
+
     }
 }
