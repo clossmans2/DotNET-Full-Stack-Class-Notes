@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Configuration;
+using System.Collections.Specialized;
 
 namespace Training
 {
@@ -23,7 +24,19 @@ namespace Training
             //Day3 day3 = new Day3();
 
             //day3.ListExample();
-            GetConfigurationValue();
+            //GetConfigurationValue();
+            //GetConfigurationSectionValues();
+
+            Car car = new Car()
+            {
+                Year = CarConfiguration.Year,
+                Color = CarConfiguration.Color,
+                Make = CarConfiguration.Make,
+                BodyStyle = CarConfiguration.BodyStyle,
+                Model = CarConfiguration.Model
+            };
+
+            Console.WriteLine($"{car.Year} {car.Make} {car.Model} {car.Color} {car.BodyStyle}");
         }
 
         public void MainTwo(string[] args)
@@ -35,6 +48,24 @@ namespace Training
         {
             var connString = ConfigurationManager.AppSettings["ConnectionString"];
             Console.WriteLine($"{connString}");
+        }
+
+        public static void GetConfigurationSectionValues()
+        {
+            var appSettings = ConfigurationManager
+                .GetSection("ApplicationSettings") as NameValueCollection;
+
+            if (appSettings.Count == 0)
+            {
+                Console.WriteLine("There aren't any application settings defined.");
+            }
+            else
+            {
+                foreach (var key in appSettings.AllKeys)
+                {
+                    Console.WriteLine($"{key} = {appSettings[key]}");
+                }
+            }
         }
     }
 
