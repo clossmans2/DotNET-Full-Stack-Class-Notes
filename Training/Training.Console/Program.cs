@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Configuration;
 using System.Collections.Specialized;
+using Training.Factories;
 
 namespace Training
 {
@@ -26,17 +27,44 @@ namespace Training
             //day3.ListExample();
             //GetConfigurationValue();
             //GetConfigurationSectionValues();
+            //Car car = new Car()
+            //{
+            //    Year = CarConfiguration.Year,
+            //    Color = CarConfiguration.Color,
+            //    Make = CarConfiguration.Make,
+            //    BodyStyle = CarConfiguration.BodyStyle,
+            //    Model = CarConfiguration.Model
+            //};
+            //Console.WriteLine($"{car.Year} {car.Make} {car.Model} {car.Color} {car.BodyStyle}");
+            var fileOps = new FileOperations();
+            //fileOps.ReadFile();
+            //fileOps.WriteFile();
+            var csv = fileOps.ReadCSV();
 
-            Car car = new Car()
+            Console.WriteLine("Would you like to see the CSV Data? [y/n]");
+            var userInput = Console.ReadLine();
+
+            if (userInput.Equals("y"))
             {
-                Year = CarConfiguration.Year,
-                Color = CarConfiguration.Color,
-                Make = CarConfiguration.Make,
-                BodyStyle = CarConfiguration.BodyStyle,
-                Model = CarConfiguration.Model
-            };
+                Console.WriteLine("Contents of the CSV");
+                Console.WriteLine("-------------------");
+                foreach (var line in csv)
+                {
+                    Console.WriteLine(line.ToString());
+                }
+            } else
+            {
+                Console.WriteLine("Press any key to terminate the program");
+            }
 
-            Console.WriteLine($"{car.Year} {car.Make} {car.Model} {car.Color} {car.BodyStyle}");
+            XBoxFactory xBoxFactory = new XBoxFactory(true, true, "Microsoft");
+            var xrem = xBoxFactory.GetRemote();
+
+            PSFactory psFactory = new PSFactory(true, true, "Sony");
+            var psrem = psFactory.GetRemote();
+
+
+            
         }
 
         public void MainTwo(string[] args)

@@ -1,0 +1,4 @@
+﻿This is a test. --- This adds to the previous text.
+Writes another line to the file.
+The last line of text
+=======================
