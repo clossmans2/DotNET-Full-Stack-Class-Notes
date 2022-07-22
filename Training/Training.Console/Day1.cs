@@ -181,17 +181,85 @@ namespace Training
     }
 
 
-    public class Animal
+    public abstract class Animal
     {
+        public string Name { get; set; }
+        public string Color { get; set; }
+        private bool Tail { get; set; }
+        protected bool Tail2 { get; set; }
+
+        public Animal() { }
+
+        public Animal(string name, string color)
+        {
+            this.Name = name;
+            this.Color = color;
+        }
+
+        public abstract string Speak();
+
+        public string View()
+        {
+            return $"I am a {this.Color} animal";
+        }
+
+        public abstract string Move();
     }
 
     public class Cat : Animal
     {
+        public string EyeColor { get; set; }
+
+        public Cat(string name, string color, string eye) : base(name, color)
+        {
+            EyeColor = eye;
+        }
+
+        public override string Move()
+        {
+            return "I prowl";
+        }
+
+        public override string Speak()
+        {
+            return "MEOW!!";
+        }
     }
 
-    public class Dog : Animal
+    public class Dog : Animal, IComparable<Dog>
     {
-        
+        public bool Collar { get; set; }
+
+        public Dog(string name, string color, bool collar) : base(name, color)
+        {
+            this.Collar = collar;
+            this.Tail2 = true;
+        }
+
+        public override string Speak()
+        {
+            return "BARK WOOF!";
+        }
+
+        public override string Move()
+        {
+            return "I run";
+        }
+
+        public void ThreadTest()
+        {
+            Console.WriteLine($"I worked in a thread. Name: {this.Name}, Color: {this.Color}, Collar: {this.Collar}");
+        }
+
+        public override string ToString()
+        {
+            return $"[Dog: {Name}, {Color}, {Collar}]";
+        }
+
+        public int CompareTo(Dog obj)
+        {
+            return String.Compare(this.Name, obj.Name);
+        }
     }
 
     public class CovarianceExample { 

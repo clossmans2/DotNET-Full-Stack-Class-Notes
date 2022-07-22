@@ -66,7 +66,9 @@ namespace Training
             //var psrem = psFactory.GetRemote();
 
 
-            await BreakfastAsync.MakeBreakfast();
+            //await BreakfastAsync.MakeBreakfast();
+
+            BankAccountExample();
         }
 
         public static void BankAccountExample()
@@ -88,7 +90,36 @@ namespace Training
             Thread thread3 = new Thread(() => ManageAccount(p3, rand));
             tasks.Add(thread3);
 
-            //Thread thread4 = new Thread()
+            Dog dog = new Dog("Sparky", "Yellow", true);
+            Thread thread4 = new Thread(dog.ThreadTest);
+            tasks.Add(thread4);
+            Thread thread5 = new Thread(new ThreadStart(dog.ThreadTest));
+            tasks.Add(thread5);
+
+            Thread thread6 = new Thread(() =>
+            {
+                for (int i = 0; i < 3; i++)
+                {
+                    double val = rand.NextDouble() * (50.50 - 20.50) + 20.50;
+                    p4.Add(val);
+                    Thread.Sleep(3000);
+                    val = rand.NextDouble() * (50.50 - 20.50) + 20.50;
+                    p4.Withdraw(val);
+                }
+            });
+            tasks.Add(thread6);
+
+            foreach (Thread task in tasks)
+            {
+                task.Start();
+            }
+
+            foreach (Thread task in tasks)
+            {
+                task.Join();
+            }
+
+            Console.WriteLine("All threads finished!");
 
         }
 
