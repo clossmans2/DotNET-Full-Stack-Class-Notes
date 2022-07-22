@@ -68,7 +68,9 @@ namespace Training
 
             //await BreakfastAsync.MakeBreakfast();
 
-            BankAccountExample();
+            //BankAccountExample();
+
+            ProducerConsumerExample();
         }
 
         public static void BankAccountExample()
@@ -121,6 +123,69 @@ namespace Training
 
             Console.WriteLine("All threads finished!");
 
+            Thread newThread = new Thread(() => { Thread.Sleep(1200000); });
+            newThread.Start();
+            newThread.Interrupt(); // Interrupts the thread when blocked/terminates it
+            Console.WriteLine("Thread interrupted");
+            newThread.Join();
+
+        }
+
+        public static void ProducerConsumerExample()
+        {
+            Random rand = new Random();
+            ProducerConsumer pcExample = new ProducerConsumer();
+
+            Thread producer1 = new Thread(() =>
+            {
+                int val = rand.Next(20, 51);
+
+                for (int i = 0; i < 5; i++)
+                {
+                    pcExample.AddProduce(val);
+                    Thread.Sleep(1000);
+                }
+            });
+
+            Thread producer2 = new Thread(() => {
+                int val = rand.Next(20, 51);
+
+                for (int i = 0; i < 5; i++)
+                {
+                    pcExample.AddProduce(val);
+                    Thread.Sleep(1000);
+                }
+            });
+
+            Thread consumer1 = new Thread(() => {
+                int val = rand.Next(10, 21);
+
+                for (int i = 0; i < 5; i++)
+                {
+                    pcExample.ConsumeProduce(val);
+                    Thread.Sleep(1000);
+                }
+            });
+
+            Thread consumer2 = new Thread(() => {
+                int val = rand.Next(10, 21);
+
+                for (int i = 0; i < 5; i++)
+                {
+                    pcExample.ConsumeProduce(val);
+                    Thread.Sleep(1000);
+                }
+            });
+
+            producer1.Start();
+            producer2.Start();
+            consumer1.Start();
+            consumer2.Start();
+
+            producer1.Join();
+            producer2.Join();
+            consumer1.Join();
+            consumer2.Join();
         }
 
         private static void ManageAccount(Person p, Random rando)
