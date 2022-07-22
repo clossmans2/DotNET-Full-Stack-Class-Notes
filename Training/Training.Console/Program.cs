@@ -69,6 +69,41 @@ namespace Training
             await BreakfastAsync.MakeBreakfast();
         }
 
+        public static void BankAccountExample()
+        {
+            BankAccount b1 = new BankAccount(100);
+            BankAccount b2 = new BankAccount(100);
+            BankAccount b3 = new BankAccount(100);
+            Person p1 = new Person("Dan Pickles", b1);
+            Person p2 = new Person("John Doe", b2);
+            Person p3 = new Person("Seth Rogen", b3);
+            Person p4 = new Person("Tammy Pickles", b1);
+            Random rand = new Random();
+            List<Thread> tasks = new List<Thread>();
+            // new Thread(new ThreadStart(Method))
+            Thread thread1 = new Thread(() => ManageAccount(p1, rand));
+            tasks.Add(thread1);
+            Thread thread2 = new Thread(() => ManageAccount(p2, rand));
+            tasks.Add(thread2);
+            Thread thread3 = new Thread(() => ManageAccount(p3, rand));
+            tasks.Add(thread3);
+
+            //Thread thread4 = new Thread()
+
+        }
+
+        private static void ManageAccount(Person p, Random rando)
+        {
+            for (int i = 0; i < 3; i++)
+            {
+                double val = rando.NextDouble() * (50.50 - 20.50) + 20.50;
+                p.Add(val);
+                Thread.Sleep(3000);
+                val = rando.NextDouble() * (50.50 - 20.50) + 20.50;
+                p.Withdraw(val);
+            }
+        }
+
         public void MainTwo(string[] args)
         {
             System.Console.WriteLine("Hi, Earth!");
