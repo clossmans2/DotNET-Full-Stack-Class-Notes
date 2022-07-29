@@ -5,6 +5,7 @@ using System.Configuration;
 using System.Collections.Specialized;
 using System.Data;
 using System.Data.SqlClient;
+using Microsoft.Extensions.Configuration;
 using Training.Factories;
 using Training.Threads;
 
@@ -20,29 +21,43 @@ namespace Training
 
         public string MY_GLOBAL_CONFIG_VALUE = "Database=MyDb;";
 
-        public static readonly string ConnString = "Data Source=0353L-GZW7KL3;Initial Catalog=SkillStormMotors;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
-        public static readonly string ConnString2 = "Server=0353L-GZW7KL3;Database=SkillStormMotors;Trusted_Connection=True;";
+        private readonly IConfiguration _configuration;
+
+        public readonly string ConnString;
+
+        //public static readonly string ConnString = "Data Source=0353L-GZW7KL3;Initial Catalog=SkillStormMotors;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
+        //public static readonly string ConnString2 = "Server=0353L-GZW7KL3;Database=SkillStormMotors;Trusted_Connection=True;";
 
         public string MyName { get; set; }
 
+        public Program(IConfiguration configuration)
+        {
+            _configuration = configuration;
+            ConnString = _configuration.GetConnectionString("DefaultConnection");
+        }
+
+        public Program()
+        {
+           
+        }
 
         public static async Task Main(string[] args)
         {
             // ADO.NET Introduction
-            await using var conn = new SqlConnection(ConnString);
+            //await using var conn = new SqlConnection(ConnString);
 
             string selectQuery = "SELECT * FROM [Vehicle]";
             //string selectQuery = "SELECT * FROM [Vehicle] FOR JSON PATH";
 
-            SqlDataAdapter adapter = new SqlDataAdapter(selectQuery, conn);
+            //SqlDataAdapter adapter = new SqlDataAdapter(selectQuery, conn);
 
-            DataSet vehicleDataSet = new DataSet();
-            adapter.Fill(vehicleDataSet, "Vehicle");
+            //DataSet vehicleDataSet = new DataSet();
+            //adapter.Fill(vehicleDataSet, "Vehicle");
 
-            List<Vehicle> inventory = new List<Vehicle>();
+            //List<Vehicle> inventory = new List<Vehicle>();
 
-            foreach (DataRow row in vehicleDataSet.Tables["Vehicle"].Rows)
-            {
+            //foreach (DataRow row in vehicleDataSet.Tables["Vehicle"].Rows)
+            //{
                 //string trim;
                 //string vinnumber;
 
@@ -65,26 +80,26 @@ namespace Training
                 //    vinnumber = (string)row["VIN"];
                 //}
 
-                var vehicle = new Vehicle {
-                    Id = (int)row["Id"],
-                    Body = (string)row["Body"],
-                    Model = (string)row["Model"],
-                    Color = (string)row["Color"],
+            //    var vehicle = new Vehicle {
+            //        Id = (int)row["Id"],
+            //        Body = (string)row["Body"],
+            //        Model = (string)row["Model"],
+            //        Color = (string)row["Color"],
                     
-                    Mileage = (int)row["Mileage"],
-                    Make = (string)row["Make"],
-                    MSRP = (int)row["MSRP"],
-                    ModelYear = (int)row["ModelYear"],
-                    TrimLevel = row.IsNull(7) ? "N/A" : (string)row["TrimLevel"],
-                    VIN = row.IsNull(9) ? "N/A" : (string)row["VIN"]
-                };
-                inventory.Add(vehicle);
-            }
+            //        Mileage = (int)row["Mileage"],
+            //        Make = (string)row["Make"],
+            //        MSRP = (int)row["MSRP"],
+            //        ModelYear = (int)row["ModelYear"],
+            //        TrimLevel = row.IsNull(7) ? "N/A" : (string)row["TrimLevel"],
+            //        VIN = row.IsNull(9) ? "N/A" : (string)row["VIN"]
+            //    };
+            //    inventory.Add(vehicle);
+            //}
 
-            foreach (var car in inventory)
-            {
-                Console.WriteLine(car.ToString());
-            }
+            //foreach (var car in inventory)
+            //{
+            //    Console.WriteLine(car.ToString());
+            //}
 
             //SqlCommand command = new SqlCommand(selectQuery, conn);
 
@@ -299,13 +314,13 @@ namespace Training
 
         public static void GetConfigurationValue()
         {
-            var connString = ConfigurationManager.AppSettings["ConnectionString"];
+            var connString = System.Configuration.ConfigurationManager.AppSettings["ConnectionString"];
             Console.WriteLine($"{connString}");
         }
 
         public static void GetConfigurationSectionValues()
         {
-            var appSettings = ConfigurationManager
+            var appSettings = System.Configuration.ConfigurationManager
                 .GetSection("ApplicationSettings") as NameValueCollection;
 
             if (appSettings.Count == 0)
