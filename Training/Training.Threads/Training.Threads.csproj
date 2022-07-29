@@ -1,9 +1,18 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <Authors>Seth Clossman</Authors>
+    <Company>SkillStorm Commercial Services, LLC</Company>
+    <Description>Threading classes from training</Description>
+    <Copyright>SkillStorm Commercial Services LLC 2022</Copyright>
+    <PackageProjectUrl>https://github.com/clossmans2/DotNET-Full-Stack-Class-Notes</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/clossmans2/DotNET-Full-Stack-Class-Notes</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageTags>.NET, Threads</PackageTags>
   </PropertyGroup>
 
 </Project>

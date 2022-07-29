@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Text;
 using System.Configuration;
 using System.Collections.Specialized;
+using System.Data;
+using System.Data.SqlClient;
 using Training.Factories;
 using Training.Threads;
 
@@ -18,11 +20,91 @@ namespace Training
 
         public string MY_GLOBAL_CONFIG_VALUE = "Database=MyDb;";
 
+        public static readonly string ConnString = "Data Source=0353L-GZW7KL3;Initial Catalog=SkillStormMotors;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
+        public static readonly string ConnString2 = "Server=0353L-GZW7KL3;Database=SkillStormMotors;Trusted_Connection=True;";
+
         public string MyName { get; set; }
 
 
         public static async Task Main(string[] args)
         {
+            // ADO.NET Introduction
+            await using var conn = new SqlConnection(ConnString);
+
+            string selectQuery = "SELECT * FROM [Vehicle]";
+            //string selectQuery = "SELECT * FROM [Vehicle] FOR JSON PATH";
+
+            SqlDataAdapter adapter = new SqlDataAdapter(selectQuery, conn);
+
+            DataSet vehicleDataSet = new DataSet();
+            adapter.Fill(vehicleDataSet, "Vehicle");
+
+            List<Vehicle> inventory = new List<Vehicle>();
+
+            foreach (DataRow row in vehicleDataSet.Tables["Vehicle"].Rows)
+            {
+                //string trim;
+                //string vinnumber;
+
+                //// Check for dbnull on trimlevel
+                //if (row.IsNull(7))
+                //{
+                //    trim = "N/A";
+                //}
+                //else
+                //{
+                //    trim = (string)row["TrimLevel"];
+                //}
+
+                //if (row.IsNull(9))
+                //{
+                //    vinnumber = "N/A";
+                //}
+                //else
+                //{
+                //    vinnumber = (string)row["VIN"];
+                //}
+
+                var vehicle = new Vehicle {
+                    Id = (int)row["Id"],
+                    Body = (string)row["Body"],
+                    Model = (string)row["Model"],
+                    Color = (string)row["Color"],
+                    
+                    Mileage = (int)row["Mileage"],
+                    Make = (string)row["Make"],
+                    MSRP = (int)row["MSRP"],
+                    ModelYear = (int)row["ModelYear"],
+                    TrimLevel = row.IsNull(7) ? "N/A" : (string)row["TrimLevel"],
+                    VIN = row.IsNull(9) ? "N/A" : (string)row["VIN"]
+                };
+                inventory.Add(vehicle);
+            }
+
+            foreach (var car in inventory)
+            {
+                Console.WriteLine(car.ToString());
+            }
+
+            //SqlCommand command = new SqlCommand(selectQuery, conn);
+
+            //try
+            //{
+            //    await conn.OpenAsync();
+            //    SqlDataReader reader = await command.ExecuteReaderAsync();
+            //    while (reader.Read())
+            //    {
+            //        //Console.WriteLine($"{reader[0]}");
+            //        //Console.WriteLine($"\t{reader[0]}\t{reader[1]}\t{reader[2]}\t{reader[3]}\t{reader[4]}\t{reader[5]}\t{reader[6]}\t{reader[7]}\t{reader[8]}\t{reader[9]}");
+            //    }
+            //    await reader.CloseAsync();
+            //}
+            //catch (Exception ex)
+            //{
+            //    Console.WriteLine(ex.Message);
+            //}
+            //Console.ReadLine();        
+
             // See https://aka.ms/new-console-template for more information
             //Day3 day3 = new Day3();
 
@@ -70,7 +152,7 @@ namespace Training
 
             //BankAccountExample();
 
-            ProducerConsumerExample();
+            //ProducerConsumerExample();
         }
 
         public static void BankAccountExample()
@@ -92,12 +174,19 @@ namespace Training
             Thread thread3 = new Thread(() => ManageAccount(p3, rand));
             tasks.Add(thread3);
 
+            //Threads do not like methods that return values, and must
+            //use methods that don't have parameters for methods that don't
+            //invovle parameters
+            //in order to involve parameters have a class that contains the state info
             Dog dog = new Dog("Sparky", "Yellow", true);
             Thread thread4 = new Thread(dog.ThreadTest);
             tasks.Add(thread4);
             Thread thread5 = new Thread(new ThreadStart(dog.ThreadTest));
             tasks.Add(thread5);
 
+            // demonstration of how a lambda works
+            // and that you can put the entire thread method
+            // inside of one
             Thread thread6 = new Thread(() =>
             {
                 for (int i = 0; i < 3; i++)
@@ -131,6 +220,8 @@ namespace Training
 
         }
 
+        //issues with this could be things such as a producer or consumer thread waiting and
+        //not having any producers alive to produce and therefore deadlock
         public static void ProducerConsumerExample()
         {
             Random rand = new Random();
@@ -192,6 +283,7 @@ namespace Training
         {
             for (int i = 0; i < 3; i++)
             {
+                //random values between 0 and 
                 double val = rando.NextDouble() * (50.50 - 20.50) + 20.50;
                 p.Add(val);
                 Thread.Sleep(3000);

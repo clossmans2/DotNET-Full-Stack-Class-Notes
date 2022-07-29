@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<package >
+  <metadata>
+    <id>Training.Console</id>
+    <version>1.0.0</version>
+    <title>Training Console</title>
+    <authors>Seth Clossman</authors>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <license type="expression">MIT</license>
+    <!-- <icon>icon.png</icon> -->
+    <projectUrl>https://github.com/clossmans2/DotNET-Full-Stack-Class-Notes</projectUrl>
+    <description>Project for training</description>
+    <releaseNotes>Summary of changes made in this release of the package.</releaseNotes>
+    <copyright>SkillStorm Commercial Services, 2022</copyright>
+    <tags>.NET</tags>
+  </metadata>
+</package>
