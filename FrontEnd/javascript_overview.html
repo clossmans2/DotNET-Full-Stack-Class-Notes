@@ -158,6 +158,18 @@
                             <figcaption>Caption for said image</figcaption>
                         </figure>
                     <footer>This is a footer... Copyright SkillStorm 2022</footer>
+                <div class="mb-3">
+                    <button class="btn btn-primary" onclick="addFactContainerToPage()">Add Fact Container</button>
+                </div>
+                <div class="mb-3">
+                    <button class="btn btn-info" onclick="addImgContainerToPage()">Add Image Container</button>
+                </div>
+                <div class="mb-3">
+                    <button class="btn btn-success" onclick="getDogImage()">Get Dog Image</button>
+                </div>
+                <div class="mb-3">
+                    <button class="btn btn-warning" onclick="getCatFact()">Get Cat Fact</button>
+                </div>   
         </main>
         <script type="text/javascript">
             let w = window;
@@ -215,6 +227,64 @@
             // el.addEventListener("click", e => alert(`Capturing: ${el.tagName}`), true);
             // }
 
+            function addImgContainerToPage(){
+                let imgHeading = document.createElement("h3");
+                imgHeading.setAttribute("id", "imgHeading");
+                imgHeading.innerText = "Dog Pictures";
+                let imgContainer = document.createElement("div");
+                imgContainer.setAttribute("id", "imgContainer");
+                document.body.appendChild(imgHeading);
+                document.body.appendChild(imgContainer);
+             }
+
+            function addImagesToPage(img) { 
+                let imgContainer = document.createElement("div");
+                imgContainer.setAttribute("class", "img-container");
+                let imgElement = document.createElement("img");
+                imgElement.setAttribute("class", "img-fluid");
+                imgElement.setAttribute("src", img);
+                imgContainer.appendChild(imgElement);
+                document.getElementById("imgContainer").appendChild(imgContainer);
+             }
+             function addFactContainerToPage(){
+                let factHeading = document.createElement("h3");
+                factHeading.setAttribute("id", "factHeading");
+                factHeading.innerText = "Cat Facts";
+                let factContainer = document.createElement("div");
+                factContainer.setAttribute("id", "factContainer");
+                let factContainerList = document.createElement("ul");
+                factContainerList.setAttribute("id", "factContainerList");
+                factContainer.appendChild(factContainerList);
+                document.body.appendChild(factHeading);
+                document.body.appendChild(factContainer);
+             }
+
+             function addFactToPage(fact) {
+                let factElement = document.createElement("li");
+                factElement.setAttribute("class", "fact");
+                factElement.innerText = fact;
+                document.getElementById("factContainerList").appendChild(factElement);
+             }
+
+             function getDogImage() {
+                fetch("https://dog.ceo/api/breeds/image/random", { method: "GET" })
+                .then((res) => res.json())
+                .then((json) => {
+                    addImagesToPage(json.message);
+                })
+                .catch((err) => console.error("error:", err));
+             }
+
+             function getCatFact() {
+                fetch("https://catfact.ninja/fact", { method: "GET" })
+                .then((res) => res.json())
+                .then((json) => {
+                    addFactToPage(json.fact);
+                })
+                .catch((err) => console.error("error:", err));
+             }
+
+
             let animal = {
                 name: "",
                 sound: "",
@@ -267,7 +337,8 @@
 
             console.log("==============================");
             console.log("thisObj -- implicit binding");
-            // This refers to the object in which it is executed, not the function where it is executed.
+            // This refers to the object in which it is executed,
+            // not the function where it is executed.
             const thisObj = {
                 myFunction: function() {
                     console.log(this === window); 
@@ -305,8 +376,8 @@
                 myFunc: function() {
                     console.log(this === thisObj3); // true
                     setTimeout(function() {
-                        console.log(this === thisObj3); // false
-                        console.log(this === window); // true
+                        console.log(`thisObj3>setTimeout>this === thisObj3 ${this === thisObj3}`); // false
+                        console.log(`thisObj3>setTimeout>this === window ${this === window}`); // true
                     });
                 }
             };
@@ -322,8 +393,8 @@
                 myFunc: function() {
                     console.log(this === arrowThisObj3); // true
                     setTimeout(() => {
-                        console.log(this === arrowThisObj3); // true
-                        console.log(this === window); // false
+                        console.log(`arrowThisObj3>setTimeout>this === arrowThisObj3 ${this === arrowThisObj3}`); // true
+                        console.log(`arrowThisObj3>setTimeout>this === window ${this === window}`); // false
                     });
                 }
             };
@@ -375,6 +446,33 @@
                 }
             }
             obj2.myFunc();
+
+            console.log("==============================");
+            console.log("XMLHttpRequest");
+
+            // XMLHttpRequest is a built-in object that is used to make AJAX requests.
+            // It is a low-level object that is used to make requests to a server.
+
+            // XMLHttpRequest is a constructor function.
+            function ApiCallWithXHR() {
+                let url = "https://api.agify.io?name=Seth";
+                let xhr = new XMLHttpRequest();
+                let reqMethod = "GET";
+                let respType = "json";
+                xhr.open(reqMethod, url, true);
+                xhr.responseType = respType;
+                xhr.onload = function() {
+                    if (xhr.status === 200) {
+                        console.log(xhr.response);
+                    } else {
+                        console.log("Request failed.  Returned status of " + xhr.status);
+                    }
+                }
+                xhr.send();
+            }
+            
+            ApiCallWithXHR();
+            
 
 
         </script>
