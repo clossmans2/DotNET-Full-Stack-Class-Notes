@@ -8,7 +8,8 @@ using System.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
 using Training.Factories;
 using Training.Threads;
-
+using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Training
 {
@@ -21,32 +22,30 @@ namespace Training
 
         public string MY_GLOBAL_CONFIG_VALUE = "Database=MyDb;";
 
-        private readonly IConfiguration _configuration;
-
-        public readonly string ConnString;
-
-        //public static readonly string ConnString = "Data Source=0353L-GZW7KL3;Initial Catalog=SkillStormMotors;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
+        public static readonly string ConnString = "Data Source=0353L-GZW7KL3;Initial Catalog=SkillStormMotors;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
         //public static readonly string ConnString2 = "Server=0353L-GZW7KL3;Database=SkillStormMotors;Trusted_Connection=True;";
 
         public string MyName { get; set; }
 
-        public Program(IConfiguration configuration)
-        {
-            _configuration = configuration;
-            ConnString = _configuration.GetConnectionString("DefaultConnection");
-        }
-
-        public Program()
-        {
-           
-        }
-
         public static async Task Main(string[] args)
         {
-            // ADO.NET Introduction
-            //await using var conn = new SqlConnection(ConnString);
+            SSMotorsTableAdapters.VehicleTableAdapter vehicleTableAdapter =
+                new SSMotorsTableAdapters.VehicleTableAdapter();
+            SSMotors.VehicleDataTable vehicles;
+            vehicles = vehicleTableAdapter.GetData();
+            
+            
 
-            string selectQuery = "SELECT * FROM [Vehicle]";
+            foreach (SSMotors.VehicleRow car in vehicles)
+            {
+                Console.WriteLine($"Vehicle:: {car.Id} {car.ModelYear} {car.Make} {car.Model} - {car.Mileage} Miles, Asking ${car.MSRP}\r\n");
+            }
+
+
+            // ADO.NET Introduction
+            await using var conn = new SqlConnection(ConnString);
+            SqlTransaction tx = conn.BeginTransaction("MyTransaction"); // <====== WHAT IS THAT BEING CALLED ON?
+            
             //string selectQuery = "SELECT * FROM [Vehicle] FOR JSON PATH";
 
             //SqlDataAdapter adapter = new SqlDataAdapter(selectQuery, conn);
@@ -58,34 +57,34 @@ namespace Training
 
             //foreach (DataRow row in vehicleDataSet.Tables["Vehicle"].Rows)
             //{
-                //string trim;
-                //string vinnumber;
+            //string trim;
+            //string vinnumber;
 
-                //// Check for dbnull on trimlevel
-                //if (row.IsNull(7))
-                //{
-                //    trim = "N/A";
-                //}
-                //else
-                //{
-                //    trim = (string)row["TrimLevel"];
-                //}
+            //// Check for dbnull on trimlevel
+            //if (row.IsNull(7))
+            //{
+            //    trim = "N/A";
+            //}
+            //else
+            //{
+            //    trim = (string)row["TrimLevel"];
+            //}
 
-                //if (row.IsNull(9))
-                //{
-                //    vinnumber = "N/A";
-                //}
-                //else
-                //{
-                //    vinnumber = (string)row["VIN"];
-                //}
+            //if (row.IsNull(9))
+            //{
+            //    vinnumber = "N/A";
+            //}
+            //else
+            //{
+            //    vinnumber = (string)row["VIN"];
+            //}
 
             //    var vehicle = new Vehicle {
             //        Id = (int)row["Id"],
             //        Body = (string)row["Body"],
             //        Model = (string)row["Model"],
             //        Color = (string)row["Color"],
-                    
+
             //        Mileage = (int)row["Mileage"],
             //        Make = (string)row["Make"],
             //        MSRP = (int)row["MSRP"],
@@ -170,6 +169,16 @@ namespace Training
             //ProducerConsumerExample();
         }
 
+        public static IConfigurationBuilder CreateDefaultBuilder()
+        {
+            var builder = new ConfigurationBuilder()
+                .SetBasePath(Directory.GetCurrentDirectory())
+                .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
+            
+
+            return builder;
+        }
+        
         public static void BankAccountExample()
         {
             BankAccount b1 = new BankAccount(100);

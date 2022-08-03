@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Full-Stack DotNET</title>
+    <!-- <style type="text/css">
+        
+    </style> -->
+    <!-- <link rel="stylesheet" href="css/styles.css" type="text/css" /> -->
+    <link rel="stylesheet" href="css/bootstrap.css" type="text/css" />
+    <script type="text/javascript" src="js/bootstrap.bundle.js"></script>
+</head>
+<body>
+    <main class="container">
+    <header>This is a header element.
+        <nav class="navbar navbar-expand-lg bg-light">
+            <div class="container-fluid">
+                <a href="#" class="navbar-brand"><img class="img-fluid" src="img/w-brand.png"></a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="index.html">Home</a></li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="about.html">About</a></li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="contact.html">Contact</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <h1>Full-Stack DotNET</h1>
+    <p>This is a paragraph</p><p>This is another paragraph</p>
+    
+   
+    <a target="_self" href="https://www.bing.com"> <img src="img/w-brand.png" alt="Windows Icon" /> Bing</a> 
+    <br />
+    <a target="_blank" href="https://www.google.com">Google</a>
+    <br />
+    <a target="_parent" href="https://www.yahoo.com">Yahoo</a>
+
+    
+
+    <h2>Heading 2</h2>
+    <div>This is the first paragraph under the second heading but in a div tag</div>
+    <span>This is span of text.</span><span>Another span of text</span>
+
+    <h3>Heading 3</h3>
+    <ul class="list-group list-group-flush">
+        <li class="list-group-item">This is the first list item</li>
+        <li class="list-group-item">This is the second list item</li>
+        <li class="list-group-item">This is the third list item</li>
+    </ul>
+    <ol class="list-group list-group-numbered" >
+        <li class="list-group-item">This is the first list item</li>
+        <li class="list-group-item">This is the second list item</li>
+        <li class="list-group-item">This is the third list item</li>
+    </ol>
+    <dl>
+        <dt>First</dt>
+        <dd>This is the first definition description</dd>
+        <dt>Second</dt>
+        <dd>This is the second definition description</dd>
+    </dl>
+    <h4>Heading 4 - Forms</h4>
+    <form id="formSample" action="" method="post">
+        <div class="mb-3">
+            <label class="invisible" for="search">Search</label>
+            <input class="form-control" placeholder="Search" type="text" id="search" />
+        </div>
+        <div class="mb-3">
+            <label for="optSelect">Pick an option</label>
+            <select class="form-select" id="optSelect">
+                <option></option>
+                <option value="1">Option 1</option>
+                <option value="2">Option 2</option>
+                <option value="3">Option 3</option>
+            </select>
+        </div>
+        <button class="btn btn-primary" id="submitBtn" type="button">Search</button>
+
+    </form>
+    <br />
+    <br />
+    <h5>Heading 5</h5>
+    <table class="table table-striped table-hover table-borderless">
+        <thead>
+            <tr>
+                <th>Col 1</th>
+                <th>Col 2</th>
+                <th>Col 3</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Row 1, Col 1</td>
+                <td>Row 1, Col 2</td>
+                <td>Row 1, Col 3</td>
+            </tr>
+            <tr>
+                <td>Row 2, Col 1</td>
+                <td>Row 2 Col 2</td>
+                <td>Row 2 Col 3</td>
+            </tr>
+            <tr>
+                <td>Row 3, Col 1</td>
+                <td>Row 3 Col 2</td>
+                <td>Row 3, Col 3</td>
+            </tr>
+            <tr>
+                <td>Row 4 Col 1</td>
+                <td>Row 4, Col 2</td>
+                <td>Row 4, Col 3</td>
+            </tr>
+        </tbody>
+        <!-- <tfoot>
+            <tr>
+                <td>Col 1</td>
+                <td>Col 2</td>
+                <td>Col 3</td>
+            </tr>
+        </tfoot> -->
+    </table>
+
+    <h6 id="heading6">Heading 6 - semantics</h6>
+    <section>
+        Denotes a section of content.
+    </section>
+    <article>
+        Holds an article (usually a single blog post or single element of content)
+    </article>
+    <aside>
+        Denotes a sidebar.
+    </aside>
+
+    <figure>
+        Picture that helps understand or digest the content.
+        <img src="img/iis.png" class="img-fluid" alt="IIS" />
+        <figcaption>Caption for said image</figcaption>
+    </figure>
+
+    <footer>This is a footer... Copyright SkillStorm 2022</footer>
+    </main>
+
+    <script type="text/javascript">
+        var w = window;
+        var d = document;
+        var searchQuery = d.getElementById("search").value;
+        var elemArray = document.getElementsByClassName("form-control");
+        var searchInput = elemArray[0].value;
+
+        function helloWorld() {
+            console.log("Hello World!");
+        }
+
+        function keepWaiting() {
+            alert("Sorry, this is taking a while, please wait!");
+        }
+
+        //window.setTimeout(helloWorld, 15000);
+
+        //var myInterval  = window.setInterval(keepWaiting, 30000);
+
+        //window.clearTimeout(); 
+        //myInterval.clearInterval();
+
+        document.addEventListener("submit", validateOptionSelect);
+
+        function validateOptionSelect(event) {
+            event.preventDefault();
+            var sel = document.getElementById('optSelect');
+            var form = document.getElementById('formSample');
+            console.log(`The element selected ${sel.options[sel.selectedIndex].value}`);
+            if(sel.options[sel.selectedIndex].value === "") {
+                alert("Please select an option");
+            }
+            else {
+                form.submit();
+            }
+        }
+
+
+    </script>
+
+</body>
+</html>
